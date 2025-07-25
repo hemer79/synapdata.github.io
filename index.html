@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapdata - Plataforma de Análisis de Datos Geográficos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #334155; /* Darker text color */
+        }
+        .gradient-bg {
+            background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet gradient */
+        }
+        .btn-primary {
+            background-color: #6366f1; /* Indigo */
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5; /* Darker indigo on hover */
+        }
+        .feature-card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+        .service-item {
+            background-color: #f1f5f9; /* Light gray-blue */
+            border-left: 4px solid #6366f1; /* Indigo border */
+            border-radius: 0.5rem; /* Rounded corners for service items */
+        }
+        .service-item h3 {
+            color: #334155; /* Darker text for service titles */
+        }
+        .service-item p {
+            color: #475569; /* Slightly lighter text for service descriptions */
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 80%;
+            width: 500px; /* Fixed width for the modal */
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <!-- Logo Section -->
+            <a href="#" class="flex items-center space-x-2 text-2xl font-bold text-gray-800">
+                <!-- SVG Logo -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#6366f1" stroke-width="2"/>
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 4V20" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4.27998 8.5H19.72" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4.27998 15.5H19.72" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.5 2.13C9.5 2.13 9.5 7 9.5 12C9.5 17 9.5 21.87 9.5 21.87" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.5 2.13C14.5 2.13 14.5 7 14.5 12C14.5 17 14.5 21.87 14.5 21.87" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Synapdata</span>
+            </a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#features" class="text-gray-600 hover:text-indigo-600 font-medium">Características</a></li>
+                    <li><a href="#arcgis-benefits" class="text-gray-600 hover:text-indigo-600 font-medium">ArcGIS para Empresas</a></li>
+                    <li><a href="#solutions" class="text-gray-600 hover:text-indigo-600 font-medium">Soluciones</a></li>
+                    <li><a href="#contact" class="text-gray-600 hover:text-indigo-600 font-medium">Contacto</a></li>
+                    <li><a href="#" class="btn-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700">Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 px-4 text-center rounded-b-3xl">
+        <div class="container mx-auto">
+            <h1 class="text-5xl font-extrabold mb-4 leading-tight">Synapdata: Tu Plataforma de Análisis de Datos Geográficos</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">
+                Synapdata es la plataforma líder para el análisis avanzado de datos espaciales, transformando información compleja en conocimientos accionables.
+            </p>
+            <a href="#features" class="bg-white text-indigo-600 px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-gray-100 transition duration-300">Explorar Características</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-4 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12 text-gray-800">Características Clave</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1: Visualización de Mapas Interactivos -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Visualización de Mapas Interactivos</h3>
+                    <p class="text-gray-600">Representa tus datos en mapas dinámicos y personalizables para una comprensión intuitiva.</p>
+                </div>
+                <!-- Feature 2: Análisis Espacial Avanzado -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Análisis Espacial Avanzado</h3>
+                    <p class="text-gray-600">Realiza análisis de proximidad, superposición, densidad y más con potentes herramientas.</p>
+                </div>
+                <!-- Feature 3: Integración de Datos -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10l2 2h10l2-2V7m-2 0H6m2 0V5a2 2 0 012-2h4a2 2 0 012 2v2m-6 0H6"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Integración de Datos</h3>
+                    <p class="text-gray-600">Conecta y combina datos de diversas fuentes para un análisis completo.</p>
+                </div>
+                <!-- Feature 4: Reportes Interactivos -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Reportes Interactivos</h3>
+                    <p class="text-gray-600">Genera informes dinámicos y exportables para compartir tus hallazgos.</p>
+                </div>
+                <!-- Feature 5: Modelos Auto-generados -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Modelos Auto-generados</h3>
+                    <p class="text-gray-600">Utiliza modelos pre-construidos para análisis comunes y acelera tu flujo de trabajo.</p>
+                </div>
+                <!-- Feature 6: Scripting (Python/R) -->
+                <div class="feature-card p-6 rounded-xl">
+                    <div class="text-indigo-500 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Scripting (Python/R)</h3>
+                    <p class="text-gray-600">Extiende las capacidades de la plataforma con tus propios scripts personalizados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ArcGIS Insights Benefits Section -->
+    <section id="arcgis-benefits" class="py-16 px-4 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12 text-gray-800">ArcGIS Insights: Potenciando tu Negocio</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="text-left">
+                    <p class="text-lg text-gray-700 mb-6">
+                        ArcGIS Insights, una herramienta fundamental en Synapdata, ofrece un análisis espacial intuitivo e interactivo, permitiéndote descubrir patrones ocultos y tomar decisiones informadas.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Análisis Exploratorio con Mapas, Gráficos y Tablas.</li>
+                        <li>Interacciones dinámicas para una mejor comprensión de los datos.</li>
+                        <li>Limpieza dinámica de datos y uniones compuestas.</li>
+                        <li>Cálculos avanzados y GeoEnrichment.</li>
+                        <li>Opciones de presentación flexibles y exportación de resultados.</li>
+                        <li>Agrupamiento y Densidad de Radio (Andes).</li>
+                    </ul>
+                </div>
+                <div class="flex justify-center">
+                    <!--  -->
+                    <img src="https://placehold.co/600x400/e0e7ff/4338ca?text=ArcGIS+Insights+Interface" alt="ArcGIS Insights Interface" class="rounded-lg shadow-lg max-w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-16 px-4 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12 text-gray-800">Nuestras Soluciones por Sector</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Solution 1: Banca -->
+                <div class="service-item p-6 rounded-xl flex flex-col">
+                    <h3 class="text-2xl font-semibold mb-3">Banca</h3>
+                    <p class="text-gray-700 mb-4">
+                        Mejora la relación con los clientes, optimiza el ciclo de cobranza y detecta fraudes.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mt-auto mb-4 space-y-1">
+                        <li>Anticipación de la Fuga (Retención)</li>
+                        <li>Incentivo del uso de productos (Fidelización)</li>
+                        <li>Adquisición de nuevos productos (Venta Cruzada/Cross-Selling)</li>
+                        <li>Maximización de la cuota de cliente (Mejora/Up-Selling)</li>
+                        <li>Anticipación de la reclamación (Satisfacción)</li>
+                        <li>Concesión de créditos (Credit Scoring)</li>
+                        <li>Anticipar impagos, detectar fraude</li>
+                        <li>Cumplimientos de normativas</li>
+                        <li>Optimización de la cobranza</li>
+                        <li>Estructura óptima para la deuda</li>
+                        <li>Gestión de sucursales</li>
+                        <li>Optimización de personal</li>
+                        <li>Gestión de cajeros automáticos</li>
+                        <li>Inversión en marketing</li>
+                        <li>Gestión del call center</li>
+                    </ul>
+                    <textarea id="input-banca" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3" rows="3" placeholder="Describe tu desafío o necesidad en banca..."></textarea>
+                    <button class="btn-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 generate-analysis-btn" data-sector="banca">Generar Análisis ✨</button>
+                </div>
+                <!-- Solution 2: Salud -->
+                <div class="service-item p-6 rounded-xl flex flex-col">
+                    <h3 class="text-2xl font-semibold mb-3">Salud</h3>
+                    <p class="text-gray-700 mb-4">
+                        Analítica de salud a nivel poblacional, detección de pacientes en riesgo y satisfacción.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mt-auto mb-4 space-y-1">
+                        <li>Analítica de la salud a nivel poblacional</li>
+                        <li>Detección de poblaciones y pacientes en riesgo</li>
+                        <li>Satisfacción de los pacientes</li>
+                        <li>Analítica de la salud relacionada con los pagadores</li>
+                    </ul>
+                    <textarea id="input-salud" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3" rows="3" placeholder="Describe tu desafío o necesidad en salud..."></textarea>
+                    <button class="btn-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 generate-analysis-btn" data-sector="salud">Generar Análisis ✨</button>
+                </div>
+                <!-- Solution 3: Retail -->
+                <div class="service-item p-6 rounded-xl flex flex-col">
+                    <h3 class="text-2xl font-semibold mb-3">Retail</h3>
+                    <p class="text-gray-700 mb-4">
+                        Geomarketing, distribución de ventas, fidelización de clientes y optimización de rutas.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mt-auto mb-4 space-y-1">
+                        <li>Geomarketing</li>
+                        <li>Distribución de ventas</li>
+                        <li>Fidelización de clientes</li>
+                        <li>Optimización de rutas</li>
+                        <li>Análisis de rotación de productos</li>
+                    </ul>
+                    <textarea id="input-retail" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3" rows="3" placeholder="Describe tu desafío o necesidad en retail..."></textarea>
+                    <button class="btn-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 generate-analysis-btn" data-sector="retail">Generar Análisis ✨</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="gradient-bg text-white py-16 px-4 text-center">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-6">Transforma tus Datos en Decisiones Estratégicas</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">
+                Descubre cómo Synapdata puede optimizar tus operaciones y mejorar tus resultados.
+            </p>
+            <a href="#contact" class="bg-white text-indigo-600 px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-gray-100 transition duration-300">Contáctanos Hoy</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-4 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8 text-gray-800">Ponte en Contacto</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                ¿Tienes preguntas o quieres una demostración? Completa el formulario a continuación o contáctanos directamente.
+            </p>
+            <div class="max-w-xl mx-auto bg-gray-50 p-8 rounded-xl shadow-lg">
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-left text-gray-700 text-sm font-medium mb-2">Nombre Completo</label>
+                        <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tu Nombre" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-left text-gray-700 text-sm font-medium mb-2">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="tu.email@ejemplo.com" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-left text-gray-700 text-sm font-medium mb-2">Tu Mensaje</label>
+                        <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-indigo-700 transition duration-300">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 px-4 rounded-t-3xl">
+        <div class="container mx-auto text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-2xl font-bold">Synapdata</h3>
+                    <p class="text-gray-400 text-sm">Análisis de Datos Geográficos</p>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#features" class="text-gray-300 hover:text-white">Características</a>
+                    <a href="#arcgis-benefits" class="text-gray-300 hover:text-white">ArcGIS</a>
+                    <a href="#solutions" class="text-gray-300 hover:text-white">Soluciones</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white">Contacto</a>
+                </nav>
+            </div>
+            <div class="border-t border-gray-700 pt-6 text-gray-500 text-sm">
+                <p>&copy; 2024 Synapdata. Todos los derechos reservados. | Desarrollado con ❤️ por tu asistente de IA</p>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="#" class="hover:text-white">Política de Privacidad</a>
+                    <a href="#" class="hover:text-white">Términos de Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analysis Modal -->
+    <div id="analysisModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Análisis Generado por IA</h2>
+            <div id="analysisResult" class="text-gray-700 text-left">
+                <!-- Analysis will be loaded here -->
+                <p>Cargando análisis...</p>
+            </div>
+            <div id="loadingIndicator" class="hidden text-center mt-4">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mx-auto"></div>
+                <p class="text-indigo-600 mt-2">Generando análisis...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateButtons = document.querySelectorAll('.generate-analysis-btn');
+            const analysisModal = document.getElementById('analysisModal');
+            const closeButton = document.querySelector('.close-button');
+            const analysisResult = document.getElementById('analysisResult');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            // Function to open the modal
+            const openModal = () => {
+                analysisModal.style.display = 'flex'; // Use flex to center content
+            };
+
+            // Function to close the modal
+            const closeModal = () => {
+                analysisModal.style.display = 'none';
+                analysisResult.innerHTML = ''; // Clear previous analysis
+                loadingIndicator.classList.add('hidden'); // Hide loading
+            };
+
+            // Close modal when clicking on the close button
+            closeButton.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside the modal content
+            window.addEventListener('click', (event) => {
+                if (event.target === analysisModal) {
+                    closeModal();
+                }
+            });
+
+            generateButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const sector = event.target.dataset.sector;
+                    const inputId = `input-${sector}`;
+                    const userInput = document.getElementById(inputId).value;
+
+                    if (!userInput.trim()) {
+                        analysisResult.innerHTML = '<p class="text-red-500">Por favor, describe tu desafío o necesidad antes de generar el análisis.</p>';
+                        openModal();
+                        return;
+                    }
+
+                    openModal();
+                    analysisResult.innerHTML = ''; // Clear previous results
+                    loadingIndicator.classList.remove('hidden'); // Show loading indicator
+
+                    let prompt = '';
+                    if (sector === 'banca') {
+                        prompt = `Como experto en análisis de datos geográficos para el sector bancario, genera un análisis conciso y actionable para el siguiente desafío o necesidad: "${userInput}". Incluye posibles soluciones y cómo Synapdata puede ayudar.`;
+                    } else if (sector === 'salud') {
+                        prompt = `Como experto en análisis de datos geográficos para el sector de la salud, genera un análisis conciso y actionable para la siguiente necesidad o desafío: "${userInput}". Incluye posibles soluciones y cómo Synapdata puede ayudar.`;
+                    } else if (sector === 'retail') {
+                        prompt = `Como experto en análisis de datos geográficos para el sector retail, genera un un análisis conciso y actionable para el siguiente desafío o necesidad: "${userInput}". Incluye posibles soluciones y cómo Synapdata puede ayudar.`;
+                    }
+
+                    try {
+                        let chatHistory = [];
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Canvas will automatically provide it in runtime
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(`Error de la API: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                        }
+
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            analysisResult.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`; // Display the response, convert newlines to <br>
+                        } else {
+                            analysisResult.innerHTML = '<p class="text-red-500">No se pudo generar un análisis. Inténtalo de nuevo.</p>';
+                        }
+                    } catch (error) {
+                        console.error('Error al llamar a la API de Gemini:', error);
+                        analysisResult.innerHTML = `<p class="text-red-500">Ocurrió un error al generar el análisis: ${error.message}.</p>`;
+                    } finally {
+                        loadingIndicator.classList.add('hidden'); // Hide loading indicator
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
